@@ -14,7 +14,7 @@ The user can select one of a total of 4 characters, each character will have a c
 If a character gets hit by its weakness, the attack will deal 120% of the normal damage, potentially **ending the fight in a single blow.**
 
 ## Wire-Frame
-![Wire Frame](https://imgur.com/MrVimY4)
+![Wire Frame](https://i.imgur.com/MrVimY4.jpg)
 
 ## User Story
 * Game Start
