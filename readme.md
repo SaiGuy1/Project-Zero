@@ -14,6 +14,7 @@ The user can select one of a total of 4 characters, each character will have a c
 If a character gets hit by its weakness, the attack will deal 120% of the normal damage, potentially **ending the fight in a single blow.**
 
 ## Wire-Frame
+![Wire Frame](https://i.imgur.com/pYClCrY.jpg)
 ![Wire Frame](https://i.imgur.com/MrVimY4.jpg)
 
 ## User Story
@@ -44,3 +45,14 @@ If a character gets hit by its weakness, the attack will deal 120% of the normal
 * Game Over
     * Once a player or CPU reach a total score of two, a dialogue box will appear, indicating whether the player or the CPU won the game.
     * The user can choose to play again or close the page.
+
+## Stretch Goals
+* Fighting Animations
+    * Character-card appearances.
+    * Character-card transition to the ring.
+    * Character attacks.
+    * Attack effects ("Pow", "Bang", "Smash")
+* Add an animated referee
+    * Summary of round dialogue.
+    * Dialogue if user is taking too long to pick an attack.
+    * Declare a winner.
