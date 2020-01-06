@@ -5,41 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script defer src="scripts/app.js"></script>
-    <title>90's Celebrity Deathmatch</title>
+    <title>Celebrity Deathmatch: 90's</title>
 </head>
 <body>
-    <header>
-        <h1>90's Celebrity Deathmatch</h1>
+    <header class="d-flex justify-content-center bg-dark text-white">
+        <h1>Celebrity Deathmatch: 90's</h1>
     </header>
-    <main>
-        <div id="instructions">
-            <h3>Instructions</h3>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus numquam perferendis atque porro, quas maxime quam maiores voluptates voluptatum, quaerat doloremque repellat. Fuga illum sit accusamus, totam corporis veniam iusto?</p>
+    <main >
+        <section id="score"></section>
+        <div id="display" class="d-flex p-2 bd-highlight">
+            <!-- <div id="instructions" class="container-md d-flex flex-column bd-highlight mb-3 bg-dark text-light ">
+                <h3>Instructions</h3>
+                <p class="text-justify">
+                    This is a turn-based fighting game, you must <b>win 2 out of 3 fights to win the game.</b> In the next screen you may:</br>
+                </br>
+                    A) Select <b>YOUR</b> character and the CPU's character will be randomized.</br>
+                </br>
+                    or...</br>
+                </br>
+                    B) Select <b>CPU</b> character but your character will be randomized.</br>
+                </br>
+                    Each character will have a character card which shows their <b>total HP, attack-set, and weakness</b>, which will be one of the other three characters in the roster. Each character has a set of <b>three attacks</b>, ranging from heavy attack but low accuracy, to a lighter attack that deals low damage but rarely misses. Once a character's HP reaches zero, the fight ends and the game resets, but a score is kept to signify the overall score. When either you or the CPU wins 2 out of three fights, the game will announce a winner.</br>
+                </br>
+                    <b>WARNING:</b> If a character gets hit by its weakness, the attack will deal 120% of the normal damage, potentially ending the fight in a single blow.</br>
+                </p>
+                <button id="game-start" class="w-25">Play NOW!</button>
+            </div> -->
+            <div class="container">
+                <div class="card-deck mb-3 text-center">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header">
+                            <h1 class="my-0 font-weight-normal">Fred Durst</h1>
+                        </div>
+                        <div class="card-body d-flex justify-content-center">
+                            <img src="images/fred_durst.png" class="w-25 p-3" alt="Fred Durst">
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>"If only we could fly!"</li>
+                                <li>HP</li>
+                                <li>Attacks</li>
+                                <li>Weakness</li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="characters">
-            <ul>
-                <li id="fred">Fred Durst
-                    <button>Select</button>
-                </li>
-                <li id="nick">Nick from BSB
-                    <button>Select</button>
-                </li>
-                <li id="britney">Britney
-                    <button>Select</button>
-                </li>
-                <li id="eminem">Eminem
-                    <button>Select</button>
-                </li>
-            </ul>
-        </div>
-        <div id="score"></div>
-        <div id="ring"></div>
     </main>
-    <footer></footer>
+    <footer>
+        <a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@jmuniz?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Joel Muniz"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Joel Muniz</span></a>
+    </footer>
 </body>
 </html>
+
+<!-- <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+</div> -->

@@ -20,6 +20,7 @@ let fred = {
         }
     ],
     weakness: "Boy Bands",
+    image: "images/fred_durst.png"
 }
 
 let nick = {
