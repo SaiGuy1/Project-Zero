@@ -13,13 +13,19 @@
     <title>Celebrity Deathmatch: 90's</title>
 </head>
 <body>
-    <header class="d-flex justify-content-center bg-dark text-white">
-        <h1>Celebrity Deathmatch: 90's</h1>
+    <header class="d-flex justify-content-center text-white flex-column">
+        <div class="d-flex justify-content-center align-items-center flex-column">
+            <img src="images/cdm_90.png" alt="Celebrity Deathmatch Logo" class="p-1">
+            <h4 class="bg-danger p-1 text-white w-50 text-center progress-bar-striped progress-bar-animated">Score</h4>
+        </div>
+        <div class="d-flex justify-content-around align-items-center bg-dark flex-row w-50 align-self-center">
+            <h5 id="player-score">Player: 0</h5><h4>VS</h4><h5 id="cpu-score">CPU: 0</h5>
+        </div>
     </header>
     <main >
         <section id="score"></section>
-        <div id="display" class="d-flex p-2 bd-highlight">
-            <!-- <div id="instructions" class="container-md d-flex flex-column bd-highlight mb-3 bg-dark text-light ">
+        <div id="display" class="d-flex p-2 justify-content-center align-items-center h-80">
+            <div id="instructions" class="container-md d-flex flex-column bg-dark text-white p-4 rounded">
                 <h3>Instructions</h3>
                 <p class="text-justify">
                     This is a turn-based fighting game, you must <b>win 2 out of 3 fights to win the game.</b> In the next screen you may:</br>
@@ -34,35 +40,80 @@
                 </br>
                     <b>WARNING:</b> If a character gets hit by its weakness, the attack will deal 120% of the normal damage, potentially ending the fight in a single blow.</br>
                 </p>
-                <button id="game-start" class="w-25">Play NOW!</button>
-            </div> -->
-            <div class="container">
-                <div class="card-deck mb-3 text-center">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-header">
-                            <h1 class="my-0 font-weight-normal">Fred Durst</h1>
-                        </div>
-                        <div class="card-body d-flex justify-content-center">
-                            <img src="images/fred_durst.png" class="w-25 p-3" alt="Fred Durst">
-                            <ul class="list-unstyled mt-3 mb-4">
-                                <li>"If only we could fly!"</li>
-                                <li>HP</li>
-                                <li>Attacks</li>
-                                <li>Weakness</li>
-                            </ul>
-                        </div>
-                        <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
-                    </div>
-                </div>
+                <button id="game-start" class="w-25 align-self-center">Play NOW!</button>
             </div>
         </div>
     </main>
-    <footer>
-        <a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@jmuniz?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Joel Muniz"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Joel Muniz</span></a>
-    </footer>
+    <footer></footer>
 </body>
 </html>
 
 <!-- <div class="progress">
     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
 </div> -->
+
+<!-- <div id="character-select" class="container">
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h1 class="my-0 font-weight-normal">Fred Durst</h1>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <img src="images/fred_durst.png" class="w-25 p-3" alt="Fred Durst">
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>"If only we could fly!"</li>
+                    <li>HP</li>
+                    <li>Attacks</li>
+                    <li>Weakness</li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
+        </div>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h1 class="my-0 font-weight-normal">Nick Carter</h1>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <img src="images/nick.png" class="w-25 p-3" alt="Nick Carter">
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>"Rock your body!"</li>
+                    <li>HP</li>
+                    <li>Attacks</li>
+                    <li>Weakness</li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
+        </div>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h1 class="my-0 font-weight-normal">Britney Spears</h1>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <img src="images/britney.png" class="w-25 p-3" alt="Britney Spears">
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>"Oops! I did it again!"</li>
+                    <li>HP</li>
+                    <li>Attacks</li>
+                    <li>Weakness</li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
+        </div>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h1 class="my-0 font-weight-normal">Eminem</h1>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <img src="images/eminem.png" class="w-25 p-3" alt="Eminem">
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>"Feels so empty with out me!"</li>
+                    <li>HP</li>
+                    <li>Attacks</li>
+                    <li>Weakness</li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
+        </div>
+    </div>
+</div> -->
+

@@ -1,10 +1,10 @@
 let fred = {
-    id: 0
+    id: "fredCard"
     name: "Fred Durst",
     hp: 100,
     attacks: [
         {
-            attack: "Smash the Nookie",
+            attack: "Chainsaw",
             damage: 90,
             accuracy: .1,
         },
@@ -20,11 +20,12 @@ let fred = {
         }
     ],
     weakness: "Boy Bands",
-    image: "images/fred_durst.png"
+    image: "images/fred_durst.png",
+    quote: `"If only we could fly!"`
 }
 
 let nick = {
-    id: 1
+    id: "nickCard"
     name: "Nick BSB",
     hp: 100,
     attacks: [
@@ -45,19 +46,21 @@ let nick = {
         }
     ],
     weakness: "Queen of Pop",
+    image: "images/nick.png",
+    quote: `"Backstreet's back!"`
 }
-let fred = {
-    id: 2
+let britney = {
+    id: "brtneyCard"
     name: "Britney",
     hp: 100,
     attacks: [
         {
-            attack: "Killing Loneliness",
+            attack: "Toxic",
             damage: 90,
             accuracy: .1,
         },
         {
-            attack: "Toxic",
+            attack: "Slap in the face",
             damage: 30,
             accuracy: .5,
         },
@@ -68,9 +71,11 @@ let fred = {
         }
     ],
     weakness: "Satirical Rap",
+    image: "images/britney.png",
+    quote: `"Oops! I did it again!"`
 }
-let fred = {
-    id: 3
+let eminem = {
+    id: "eminemCard"
     name: "Eminem",
     hp: 100,
     attacks: [
@@ -90,6 +95,8 @@ let fred = {
             accuracy: 1,
         }
     ],
-    weakness: "Lame Rap-Rock",
+    weakness: "Wanna-be Rappers",
+    image: "images/eminem.png",
+    quote: `"It feels so empty without me!"`
 }
 
