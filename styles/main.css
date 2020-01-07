@@ -1,8 +1,20 @@
 body{
     background-image: url('../images/ring.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100%;
+    background-position: center;
     width: 100vw;
     height: 100vh;
     z-index: -1;
+}
+
+.h1_fonts{
+    font-family: 'Pacifico', cursive;
+}
+
+.fighter-card{
+    transition: transform .2s;
+}
+
+.fighter-card:hover {
+    transform: scale(1.1);
 }

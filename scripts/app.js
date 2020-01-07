@@ -17,12 +17,12 @@ let fighters = [
             },
             {
                 attack: "Sucker Punch",
-                damage: 30,
+                damage: 40,
                 accuracy: .3,
             },
             {
                 attack: "Microphone Smack",
-                damage: 10,
+                damage: 15,
                 accuracy: .9,
             }
         ],
@@ -37,12 +37,12 @@ let fighters = [
         attacks: [
             {
                 attack: "Backstreet Smack!",
-                damage: 90,
-                accuracy: .1,
+                damage: 70,
+                accuracy: .25,
             },
             {
                 attack: "Rock your body right hook",
-                damage: 30,
+                damage: 20,
                 accuracy: .5,
             },
             {
@@ -62,7 +62,7 @@ let fighters = [
         attacks: [
             {
                 attack: "Toxic",
-                damage: 90,
+                damage: 80,
                 accuracy: .2,
             },
             {
@@ -127,19 +127,40 @@ function createFighters(){
     $('#mode-select').remove();
     fighters.forEach((fighter) => {
         $('#display').append(`
-        <div id="${fighter.id}" class="container">
-            <div class="card-deck mb-3 text-center">
-                <div class="card mb-4 shadow-sm">
+        <div id="${fighter.id}" class="container-md fighter-card" >
+            <div class="card-deck text-center">
+                <div class="card shadow-sm">
                     <div class="card-header">
-                        <h1 class="my-0 font-weight-normal">${fighter.name}</h1>
+                        <h1 class="my-0 font-weight-normal h1_fonts">${fighter.name}</h1>
                     </div>
                     <div class="card-body d-flex flex-column justify-content-center ">
-                        <img src=${fighter.image} class="w-25 align-self-center" alt="${fighter.name}">
+                        <img src=${fighter.image} class="w-25 align-self-center rounded-circle" alt="${fighter.name}">
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>Fav quote:<br><b>${fighter.quote}</b></li>
-                            <li>HP = ${fighter.hp}</li>
-                            <li>Attacks</li>
-                            <li>Weakness is ${fighter.weakness}</li>
+                            <li class="bg-success progress-bar-striped progress-bar-animated text-white text-md">HP = ${fighter.hp}</li>
+                            <table class="table table-dark">
+                                <tr>
+                                    <th>Move</th>
+                                    <th>Power</th>
+                                    <th>Accuracy</th>
+                                </tr>
+                                <tr>
+                                    <td>${fighter.attacks[0].attack}</td>
+                                    <td>${fighter.attacks[0].damage}</td>
+                                    <td>${fighter.attacks[0].accuracy}</td>
+                                </tr>
+                                <tr>
+                                    <td>${fighter.attacks[1].attack}</td>
+                                    <td>${fighter.attacks[1].damage}</td>
+                                    <td>${fighter.attacks[1].accuracy}</td>
+                                </tr>
+                                <tr>
+                                    <td>${fighter.attacks[2].attack}</td>
+                                    <td>${fighter.attacks[2].damage}</td>
+                                    <td>${fighter.attacks[2].accuracy}</td>
+                                </tr>
+                            </table>
+                            <li class="text-danger">**Weakness is ${fighter.weakness}</li>
                         </ul>
                     </div>
                     <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
