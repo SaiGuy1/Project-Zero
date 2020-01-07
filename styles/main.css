@@ -7,6 +7,20 @@ body{
     z-index: -1;
 }
 
+main{
+    height: 70vh;
+    width: 100vw;
+}
+
+.table-condensed{
+    font-size: 10px;
+}
+
+#battle-scene{
+    background-image: url('../images/fight-ring.jpg');
+    background-size: cover;
+}
+
 .h1_fonts{
     font-family: 'Pacifico', cursive;
 }
@@ -17,4 +31,26 @@ body{
 
 .fighter-card:hover {
     transform: scale(1.1);
+}
+
+@media (min-width: 768px) {
+    .container, .container-md, .container-sm {
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 576px) {
+    .container, .container-sm {
+        max-width: 100%;
+    }
+}
+@media (min-width: 768px) {
+    .container {
+        max-width: 100%;
+    }
+}
+@media (min-width: 576px) {
+    .container {
+        max-width: 100%;
+    }
 }

@@ -23,26 +23,30 @@
             <h5 id="player-score">Player: 0</h5><h4>VS</h4><h5 id="cpu-score">CPU: 0</h5>
         </div>
     </header>
-    <main>
-        <div id="display" class="d-flex p-2 justify-content-center align-items-center">
-            <div id="instructions" class="container d-flex flex-column bg-dark text-white p-4 rounded">
-                <h3>Instructions</h3>
-                <p class="text-justify">
-                    This is a turn-based fighting game, you must <b>win 2 out of 3 fights to win the game.</b> In the next screen you may:</br>
+    <main id="display" class="d-flex p-2 justify-content-center align-items-center">
+        <div id="instructions" class="container d-flex flex-column bg-dark text-white p-4 rounded">
+            <h3>Instructions</h3>
+            <p class="text-justify">
+                This is a turn-based fighting game, you must <b>win 2 out of 3 fights to win the game.</b> In the next screen you may:</br>
                 </br>
-                    A) Select <b>YOUR</b> character and the CPU's character will be randomized.</br>
+                A) Select <b>YOUR</b> character and the CPU's character will be randomized.</br>
                 </br>
-                    or...</br>
+                or...</br>
                 </br>
-                    B) Select <b>CPU</b> character but your character will be randomized.</br>
+                B) Select <b>CPU</b> character but your character will be randomized.</br>
                 </br>
-                    Each character will have a character card which shows their <b>total HP, attack-set, and weakness</b>, which will be one of the other three characters in the roster. Each character has a set of <b>three attacks</b>, ranging from heavy attack but low accuracy, to a lighter attack that deals low damage but rarely misses. Once a character's HP reaches zero, the fight ends and the game resets, but a score is kept to signify the overall score. When either you or the CPU wins 2 out of three fights, the game will announce a winner.</br>
+                Each character will have a character card which shows their <b>total HP, attack-set, and weakness</b>, which will be one of the other three characters in the roster. Each character has a set of <b>three attacks</b>, ranging from heavy attack but low accuracy, to a lighter attack that deals low damage but rarely misses. Once a character's HP reaches zero, the fight ends and the game resets, but a score is kept to signify the overall score. When either you or the CPU wins 2 out of three fights, the game will announce a winner.</br>
                 </br>
-                    <b>WARNING:</b> If a character gets hit by its weakness, the attack will deal 120% of the normal damage, potentially ending the fight in a single blow.</br>
-                </p>
-                <button id="game-start" class="w-25 align-self-center">Play NOW!</button>
-            </div>
+                <b>WARNING:</b> If a character gets hit by its weakness, the attack will deal 120% of the normal damage, potentially ending the fight in a single blow.</br>
+            </p>
+            <button id="game-start" class="w-25 align-self-center">Play NOW!</button>
         </div>
+        <!-- <div id="battle-scene" class="d-flex flex-column justify-content-center align-items-center h-100 w-100">
+            <div id="referee" class="d-flex flex-row h-50 w-75"></div>
+            <div id="fight-ring" class="d-flex flex-row h-50 w-75">
+                
+            </div>
+        </div> -->
     </main>
     <footer></footer>
 </body>
@@ -50,70 +54,5 @@
 
 <!-- <div class="progress">
     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-</div> -->
-
-<!-- <div id="character-select" class="container">
-    <div class="card-deck mb-3 text-center">
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h1 class="my-0 font-weight-normal">Fred Durst</h1>
-            </div>
-            <div class="card-body d-flex justify-content-center">
-                <img src="images/fred_durst.png" class="w-25 p-3" alt="Fred Durst">
-                <ul class="list-unstyled mt-3 mb-4">
-                    <li>"If only we could fly!"</li>
-                    <li>HP</li>
-                    <li>Attacks</li>
-                    <li>Weakness</li>
-                </ul>
-            </div>
-            <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
-        </div>
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h1 class="my-0 font-weight-normal">Nick Carter</h1>
-            </div>
-            <div class="card-body d-flex justify-content-center">
-                <img src="images/nick.png" class="w-25 p-3" alt="Nick Carter">
-                <ul class="list-unstyled mt-3 mb-4">
-                    <li>"Rock your body!"</li>
-                    <li>HP</li>
-                    <li>Attacks</li>
-                    <li>Weakness</li>
-                </ul>
-            </div>
-            <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
-        </div>
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h1 class="my-0 font-weight-normal">Britney Spears</h1>
-            </div>
-            <div class="card-body d-flex justify-content-center">
-                <img src="images/britney.png" class="w-25 p-3" alt="Britney Spears">
-                <ul class="list-unstyled mt-3 mb-4">
-                    <li>"Oops! I did it again!"</li>
-                    <li>HP</li>
-                    <li>Attacks</li>
-                    <li>Weakness</li>
-                </ul>
-            </div>
-            <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
-        </div>
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h1 class="my-0 font-weight-normal">Eminem</h1>
-            </div>
-            <div class="card-body d-flex justify-content-center">
-                <img src="images/eminem.png" class="w-25 p-3" alt="Eminem">
-                <ul class="list-unstyled mt-3 mb-4">
-                    <li>"Feels so empty with out me!"</li>
-                    <li>HP</li>
-                    <li>Attacks</li>
-                    <li>Weakness</li>
-                </ul>
-            </div>
-            <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
-        </div>
-    </div>
 </div> -->
 

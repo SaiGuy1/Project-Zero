@@ -2,7 +2,9 @@
 // ***************************** 3rd Party Libraries **********************************************************
 // ***************************** Sanity Check *****************************************************************
 // ***************************** Constants & Variables ********************************************************
-let score = 0
+const score = 0
+const $display = $('#display')
+const $instructions = $('#instructions')
 // ***************************** App State ********************************************************************
 let fighters = [
     {
@@ -21,7 +23,7 @@ let fighters = [
                 accuracy: .3,
             },
             {
-                attack: "Microphone Smack",
+                attack: "Mic. Smack",
                 damage: 15,
                 accuracy: .9,
             }
@@ -36,12 +38,12 @@ let fighters = [
         hp: 100,
         attacks: [
             {
-                attack: "Backstreet Smack!",
+                attack: "Bckstrt Smack!",
                 damage: 70,
                 accuracy: .25,
             },
             {
-                attack: "Rock your body right hook",
+                attack: "Rock yo' body",
                 damage: 20,
                 accuracy: .5,
             },
@@ -71,7 +73,7 @@ let fighters = [
                 accuracy: .5,
             },
             {
-                attack: "Cure Wounds",
+                attack: "Heal",
                 damage: 20,
                 accuracy: 1,
             }
@@ -86,12 +88,12 @@ let fighters = [
         hp: 90,
         attacks: [
             {
-                attack: "Chance to blow",
+                attack: "Political Outrage",
                 damage: 90,
                 accuracy: .1,
             },
             {
-                attack: "Shady Liver Chop",
+                attack: "Shady Chop",
                 damage: 30,
                 accuracy: .5,
             },
@@ -103,20 +105,20 @@ let fighters = [
         ],
         weakness: "Wanna-be Rappers",
         image: "images/eminem.png",
-        quote: `"It feels so empty without me!"`
+        quote: `"I'm the real Shady!"`
     }
 ];
 // ***************************** Functions ********************************************************************
 // Removes Instructions, transitions into character selection.
 function gameStart(){
-    $('#instructions').remove();
-    $('#display').append(`
+    $instructions.remove();
+    $display.append(`
     <div id="mode-select" class="bg-dark text-light p-5">
                 <form action="#">
                     <p>Please select a game mode:</p>
                     <input type="radio" name="mode" value="mode1"> Select user fighter and randomize CPU opponent.<br>
                     <input type="radio" name="mode" value="mode2"> Select CPU opponent and randomize user fighter<br>
-                    <input id="game-mode-selected" type="submit" value="Submit">
+                    <input id="game-mode-selected" type="submit" value="Submit" class="m-2">
                 </form>
             </div>
     `);
@@ -125,54 +127,60 @@ function gameStart(){
 //Loops through our fighters array (of objects) to create a character selection board.
 function createFighters(){
     $('#mode-select').remove();
+    $display.append(`
+    <div class="card-deck text-center w-75" id="character-selector"></div>
+    `);
     fighters.forEach((fighter) => {
-        $('#display').append(`
-        <div id="${fighter.id}" class="container-md fighter-card" >
-            <div class="card-deck text-center">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h1 class="my-0 font-weight-normal h1_fonts">${fighter.name}</h1>
-                    </div>
-                    <div class="card-body d-flex flex-column justify-content-center ">
-                        <img src=${fighter.image} class="w-25 align-self-center rounded-circle" alt="${fighter.name}">
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>Fav quote:<br><b>${fighter.quote}</b></li>
-                            <li class="bg-success progress-bar-striped progress-bar-animated text-white text-md">HP = ${fighter.hp}</li>
-                            <table class="table table-dark">
-                                <tr>
-                                    <th>Move</th>
-                                    <th>Power</th>
-                                    <th>Accuracy</th>
-                                </tr>
-                                <tr>
-                                    <td>${fighter.attacks[0].attack}</td>
-                                    <td>${fighter.attacks[0].damage}</td>
-                                    <td>${fighter.attacks[0].accuracy}</td>
-                                </tr>
-                                <tr>
-                                    <td>${fighter.attacks[1].attack}</td>
-                                    <td>${fighter.attacks[1].damage}</td>
-                                    <td>${fighter.attacks[1].accuracy}</td>
-                                </tr>
-                                <tr>
-                                    <td>${fighter.attacks[2].attack}</td>
-                                    <td>${fighter.attacks[2].damage}</td>
-                                    <td>${fighter.attacks[2].accuracy}</td>
-                                </tr>
-                            </table>
-                            <li class="text-danger">**Weakness is ${fighter.weakness}</li>
-                        </ul>
-                    </div>
-                    <button type="button" class="btn btn-dark btn-block btn-outline-red">Select</button>
-                </div>
+        $('#character-selector').append(`
+        <div id="${fighter.id}" class="card shadow-sm fighter-card">
+            <div class="card-header">
+                <h1 class="my-0 font-weight-normal h1_fonts">${fighter.name}</h1>
             </div>
+            <div class="card-body d-flex flex-column justify-content-center ">
+                <img src=${fighter.image} class="w-25 align-self-center rounded" alt="${fighter.name}">
+                <ul class="list-unstyled">
+                    <li "font-size: 10px;"><b>${fighter.quote}</b></li>
+                    <li class="bg-success progress-bar-striped progress-bar-animated text-white text-md">HP = ${fighter.hp}</li>
+                    <table class="w-100 table-condensed table-dark">
+                        <tr>
+                            <th>Move</th>
+                            <th>Power</th>
+                            <th>Accuracy</th>
+                        </tr>
+                        <tr>
+                            <td>${fighter.attacks[0].attack}</td>
+                            <td>${fighter.attacks[0].damage}</td>
+                            <td>${fighter.attacks[0].accuracy*100}%</td>
+                        </tr>
+                        <tr>
+                            <td>${fighter.attacks[1].attack}</td>
+                            <td>${fighter.attacks[1].damage}</td>
+                            <td>${fighter.attacks[1].accuracy*100}%</td>
+                        </tr>
+                        <tr>
+                            <td>${fighter.attacks[2].attack}</td>
+                            <td>${fighter.attacks[2].damage}</td>
+                            <td>${fighter.attacks[2].accuracy*100}%</td>
+                        </tr>
+                    </table>
+                    <li class="text-danger" style="font-size: 10px;">**Weakness is ${fighter.weakness}</li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-dark btn-block btn-outline-red character-selected">Select</button>
         </div>
         `);
     });
+}
 
+function battleStart (event) {
+    $display.append(`
+    `)
+    let $fightingRing = $('#fighting-ring');
+    $fightingRing.append($(event.target).parent().parent());
 }
 
 // ***************************** Event Listeners **************************************************************
 $('#game-start').on('click', gameStart);
-$('#display').on('click', '#game-mode-selected', createFighters);
+$display.on('click', '#game-mode-selected', createFighters);
+$display.on('click', '.character-selected', battleStart);
 
