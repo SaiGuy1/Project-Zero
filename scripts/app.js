@@ -8,6 +8,7 @@ const $instructions = $('#instructions')
 // ***************************** App State ********************************************************************
 let fighters = [
     {
+        chosen: false,
         id: "fredCard",
         name: "Fred",
         hp: 110,
@@ -33,6 +34,7 @@ let fighters = [
         quote: `"If only we could fly!"`
     },
     {
+        chosen: false,
         id: "nickCard",
         name: "Nick",
         hp: 100,
@@ -58,6 +60,7 @@ let fighters = [
         quote: `"Backstreet's back!"`
     },
     {
+        chosen:false,
         id: "britneyCard",
         name: "Britney",
         hp: 85,
@@ -83,6 +86,7 @@ let fighters = [
         quote: `"Oops! I did it again!"`
     },
     {
+        chosen: false,
         id: "eminemCard",
         name: "Eminem",
         hp: 90,
@@ -136,8 +140,8 @@ function createFighters(){
             <div class="card-header">
                 <h1 class="my-0 font-weight-normal h1_fonts">${fighter.name}</h1>
             </div>
-            <div class="card-body d-flex flex-column justify-content-center ">
-                <img src=${fighter.image} class="w-25 align-self-center rounded" alt="${fighter.name}">
+            <div class="card-body p-1 d-flex flex-column justify-content-center ">
+                <img src=${fighter.image} class="w-25 align-self-center rounded-circle" alt="${fighter.name}">
                 <ul class="list-unstyled">
                     <li "font-size: 10px;"><b>${fighter.quote}</b></li>
                     <li class="bg-success progress-bar-striped progress-bar-animated text-white text-md">HP = ${fighter.hp}</li>
@@ -172,11 +176,43 @@ function createFighters(){
     });
 }
 
+//This function listens to who the user selected to create the battle-ring and switch the character card to the fighting card, which has less information but more functionality.
 function battleStart (event) {
     $display.append(`
+    <div id="battle-scene" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
+        <div id="referee" class="d-flex flex-row h-25 w-75">
+        </div>
+        <div id="fight-ring" class="card-deck d-flex flex-row h-75 w-75">
+        </div>
+    </div>
     `)
-    let $fightingRing = $('#fighting-ring');
-    $fightingRing.append($(event.target).parent().parent());
+    //console.log($(event.target).parent().attr('id'));
+    fighters.forEach(fighter => {
+        if(fighter.id===$(event.target).parent().attr('id')){
+            $('#fight-ring').append(`
+            <div id="${fighter.id}" class="card shadow-sm">
+                <div class="card-header">
+                    <h1 class="my-0 font-weight-normal h1_fonts">${fighter.name}</h1>
+                </div>
+                <div class="card-body p-1 d-flex flex-column justify-content-center ">
+                    <img src=${fighter.image} class="w-25 align-self-center rounded-circle" alt="${fighter.name}">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%" aria-valuenow="${fighter.hp}" aria-valuemin="0" aria-valuemax="${fighter.hp}">${fighter.hp}HP</div>
+                    </div>
+                </div>
+                <div id="${fighter.name}-attacks">
+                </div>
+            </div>
+            `);
+            fighter.attacks.forEach(attack => {
+                $(`#${fighter.name}-attacks`).append(`
+                <button type="button" class="btn btn-dark btn-block btn-outline-red" pow="${attack.damage}" acc="${attack.accuracy}">Name: ${attack.attack}<br>POW: ${attack.damage} ACC: ${attack.accuracy*100}%</button>
+                `);
+            });
+
+        }
+    });
+    $('#character-selector').remove();
 }
 
 // ***************************** Event Listeners **************************************************************
