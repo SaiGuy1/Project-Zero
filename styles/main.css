@@ -45,3 +45,49 @@ main{
 .attack-button{
     font-size: 10px;
 }
+
+.cpu-attack-button{
+    font-size: 10px;
+}
+
+#rspeech-bubble {
+    font-size: 1.25em;
+	position: relative;
+	background: #e2e6e3;
+	border-radius: .4em;
+}
+
+#rspeech-bubble:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 0.25em solid transparent;
+	border-right-color: #e2e6e3;
+	border-left: 0;
+	margin-top: -0.25em;
+	margin-left: -0.25em;
+}
+
+#lspeech-bubble {
+    font-size: 1.25em;
+	position: relative;
+	background: #e2e6e3;
+	border-radius: .4em;
+}
+
+#lspeech-bubble:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 0.25em solid transparent;
+	border-left-color: #e2e6e3;
+	border-right: 0;
+	margin-top: -0.25em;
+	margin-right: -0.25em;
+}

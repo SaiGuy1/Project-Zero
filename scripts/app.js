@@ -182,7 +182,7 @@ function battleStart (event) {
     $display.append(`
     <div id="battle-scene" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
         <div class="d-flex flex-row justify-content-center align-items-center h-25 w-75">
-            <img src='images/commentators.png' id="referee">
+            <div id="lspeech-bubble">This will be a good fight!</div><img src='images/commentators.png' id="referee" class="rounded-pill"><div id="rspeech-bubble">Let's get it on!</div>
         </div>
         <div id="fight-ring" class="card-deck d-flex flex-row justify-content-around h-75 w-75">
         </div>
@@ -192,7 +192,7 @@ function battleStart (event) {
     fighters.forEach(fighter => {
         if(fighter.id===$(event.target).parent().attr('id')){
             $('#fight-ring').append(`
-            <div id="fighter-a" class="card shadow-sm ring-card m-0">
+            <div id="${fighter.name}" class="card shadow-sm ring-card m-0">
                 <div class="card-header d-flex justify-content-center align-items-center">
                     <h1 class="h1_fonts">${fighter.name}</h1>
                 </div>
@@ -208,7 +208,7 @@ function battleStart (event) {
             `);
             fighter.attacks.forEach(attack => {
                 $(`#${fighter.name}-attacks`).append(`
-                <button type="button" class="btn-dark btn-block btn-outline-red attack-button p-1 m-1" pow="${attack.damage}" acc="${attack.accuracy}">ATK: ${attack.attack}<br>POW: ${attack.damage} ACC: ${attack.accuracy*100}%</button>
+                <button type="button" class="btn-dark btn-block btn-outline-red attack-button p-1 m-1" atk="${attack.attack}" pow="${attack.damage}" acc="${attack.accuracy}">ATK: ${attack.attack}<br>POW: ${attack.damage} ACC: ${attack.accuracy*100}%</button>
                 `);
             });
         } else {
@@ -219,7 +219,7 @@ function battleStart (event) {
     let randomFighter = leftOvers[Math.floor(Math.random()*leftOvers.length)];
     //console.log(randomFighter);
     {$('#fight-ring').append(`
-            <div id="fighter-b" class="card shadow-sm ring-card m-0">
+            <div id="${randomFighter.name}" class="card shadow-sm ring-card m-0">
                 <div class="card-header d-flex justify-content-center align-items-center">
                     <h1 class="h1_fonts">${randomFighter.name}</h1>
                 </div>
@@ -229,33 +229,51 @@ function battleStart (event) {
                         <div id="b-hp" class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="${randomFighter.hp}" aria-valuemin="0" aria-valuemax="${randomFighter.hp}">${randomFighter.hp}HP</div>
                     </div>
                 </div>
-                <div id="${randomFighter.name}-attacks">
+                <div id="cpu-attacks">
                 </div>
             </div>
             `);}
             randomFighter.attacks.forEach(attack => {
-                $(`#${randomFighter.name}-attacks`).append(`
-                <button type="button" class="btn-dark btn-block btn-outline-red attack-button p-1 m-1" pow="${attack.damage}" acc="${attack.accuracy}">ATK: ${attack.attack}<br>POW: ${attack.damage} ACC: ${attack.accuracy*100}%</button>
+                $(`#cpu-attacks`).append(`
+                <div class="bg-dark text-white text-sm cpu-attack-button p-1 m-1" atk="${attack.attack}" pow="${attack.damage}" acc="${attack.accuracy}">ATK: ${attack.attack}<br>POW: ${attack.damage} ACC: ${attack.accuracy*100}%</div>
                 `);
             });
     $('#character-selector').remove();
 }
 
 //Listens to the clicked attack and "rolls the dice" to determine whether attack hit or missed, if hit, substract dealt damage from opposing player HP, if hit is performed by victim's weakness, multiply damage by 1.2.
-function fightMechanic (event) {
-    $(event.target).attr('animated', 'bounce')
+function userAttack (event) {
     if($(event.target).attr('acc')>Math.random()){
-        console.log(`You dealt ${$(event.target).attr('pow')} damage!`);
+        //console.log($(event.target).parent().parent().attr('id'));
+        //console.log(`${$(event.target).parent()} dealt ${$(event.target).attr('pow')} damage!`);
         $('#b-hp').attr('aria-valuenow', $('#b-hp').attr('aria-valuenow') - $(event.target).attr('pow'));
         $('#b-hp').attr('style', `width: ${($('#b-hp').attr('aria-valuenow')/$('#b-hp').attr('aria-valuemax'))*100}%`);
         $('#b-hp').text(`${$('#b-hp').attr('aria-valuenow')}HP`);
+        $('#lspeech-bubble').text(`${$(event.target).parent().parent().attr('id')} used ${$(event.target).attr('atk')} and dealt ${$(event.target).attr('pow')} damage!`)
     } else {
-        console.log('You missed!')
+        //console.log('You missed!')
+        $('#lspeech-bubble').text(`Oh no! ${$(event.target).parent().parent().attr('id')} missed the attack!`)
+    }
+    setTimeout(cpuAttack,1000);
+}
+
+function cpuAttack(){
+    let $randomAttack = $('#cpu-attacks div').eq(Math.floor(Math.random()*3));
+    //console.log($randomAttack.text())
+    if($randomAttack.attr('acc')>Math.random()){
+    $('#a-hp').attr('aria-valuenow', $('#a-hp').attr('aria-valuenow') - $randomAttack.attr('pow'));
+    $('#a-hp').attr('style', `width: ${($('#a-hp').attr('aria-valuenow')/$('#a-hp').attr('aria-valuemax'))*100}%`);
+    $('#a-hp').text(`${$('#a-hp').attr('aria-valuenow')}HP`);
+    $('#rspeech-bubble').text(`${$randomAttack.parent().parent().attr('id')} used ${$randomAttack.attr('atk')} and dealt ${$randomAttack.attr('pow')} damage!`)
+    } else {
+        //console.log('CPU missed!');
+        $('#rspeech-bubble').text(`Lucky! ${$randomAttack.parent().parent().attr('id')} missed!`)
     }
 }
+
 // ***************************** Event Listeners **************************************************************
 $('#game-start').on('click', gameStart);
 $display.on('click', '#game-mode-selected', createFighters);
 $display.on('click', '.character-selected', battleStart);
-$display.on('click', '.attack-button', fightMechanic);
+$display.on('click', '.attack-button', userAttack);
 
