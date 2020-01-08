@@ -33,7 +33,20 @@ main{
     transform: scale(1.1);
 }
 
-@media (min-width: 768px) {
+.ring-card{
+    max-width: 15vw;
+    max-height: 35vh;
+}
+
+.ring-card .h1_fonts{
+    font-size: 18px;
+}
+
+.attack-button{
+    font-size: 10px;
+}
+
+/* @media (min-width: 768px) {
     .container, .container-md, .container-sm {
         max-width: 100%;
     }
@@ -53,4 +66,4 @@ main{
     .container {
         max-width: 100%;
     }
-}
+} */
