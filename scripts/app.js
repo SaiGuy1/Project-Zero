@@ -383,6 +383,7 @@ function buy(){
     window.location.href = 'https://www.amazon.com/Episode-5-1/dp/B000KDZSH2/ref=sr_1_1?keywords=celebrity+deathmatch&qid=1578530587&sr=8-1'
 }
 
+//Fires iconic character select sound
 let selectNoise = () => charSelected.play(); 
 
 // ***************************** Event Listeners **************************************************************
