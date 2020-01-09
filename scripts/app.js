@@ -15,9 +15,11 @@ const charSelected = document.getElementById('char-selected');
 const userHit = document.getElementById('user-hit');
 const cpuHit = document.getElementById('cpu-hit');
 const missHit = document.getElementById('miss-hit');
+const missHit2 = document.getElementById('miss-hit2');
 const endFx = document.getElementById('end-fx');
 const youWin = document.getElementById('you-win');
 const youLose = document.getElementById('you-lose');
+const gameOverTheme = document.getElementById('game-over');
 // ***************************** App State ********************************************************************
 let fighters = [
     {
@@ -44,7 +46,8 @@ let fighters = [
         ],
         weakness: "Boy Bands",
         image: "images/fred_durst.png",
-        quote: `"If only we could fly!"`
+        quote: `"If only we could fly!"`,
+        weak: "Nick"
     },
     {
         chosen: false,
@@ -70,7 +73,8 @@ let fighters = [
         ],
         weakness: "Queen of Pop",
         image: "images/nick.png",
-        quote: `"Backstreet's back!"`
+        quote: `"Backstreet's back!"`,
+        weak: "Britney"
     },
     {
         chosen:false,
@@ -96,7 +100,8 @@ let fighters = [
         ],
         weakness: "Satirical Rap",
         image: "images/britney.png",
-        quote: `"Oops! I did it again!"`
+        quote: `"Oops! I did it again!"`,
+        weak: "Eminem"
     },
     {
         chosen: false,
@@ -122,12 +127,14 @@ let fighters = [
         ],
         weakness: "Wanna-be Rappers",
         image: "images/eminem.png",
-        quote: `"I'm the real Shady!"`
+        quote: `"I'm the real Shady!"`,
+        weak: "Fred"
     }
 ];
 // ***************************** Functions ********************************************************************
 // Removes Instructions, transitions into character selection.
 function gameStart(){
+    charSelected.play();
     $instructions.remove();
     $display.append(`
     <div id="mode-select" class="bg-dark text-light p-5">
@@ -143,6 +150,9 @@ function gameStart(){
 
 //Loops through our fighters array (of objects) to create a character selection board.
 function createFighters(){;
+    if(cpuScore === 0 && playerScore === 0){
+        charSelected.play();
+    }
     $('#loading-screen').remove();
     $('#mode-select').remove();
     $display.append(`
@@ -216,7 +226,7 @@ function battleStart (event) {
                 <div class="card-body p-1 d-flex flex-column justify-content-center ">
                     <img src=${fighter.image} class="w-25 align-self-center rounded-circle" alt="${fighter.name}">
                     <div class="progress">
-                        <div id="a-hp" class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="${fighter.hp}" aria-valuemin="0" aria-valuemax="${fighter.hp}">${fighter.hp}HP</div>
+                        <div id="a-hp" class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" name="${fighter.name}" aria-valuenow="${fighter.hp}" aria-valuemin="0" aria-valuemax="${fighter.hp}" weakness="${fighter.weak}">${fighter.hp}HP</div>
                     </div>
                 </div>
                 <div id="${fighter.name}-attacks" class="attack-list d-flex flex-column justify-content-center align-items-center">
@@ -243,7 +253,7 @@ function battleStart (event) {
                 <div class="card-body p-1 d-flex flex-column justify-content-center">
                     <img src=${randomFighter.image} class="w-25 align-self-center rounded-circle" alt="${randomFighter.name}">
                     <div class="progress">
-                        <div id="b-hp" class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="${randomFighter.hp}" aria-valuemin="0" aria-valuemax="${randomFighter.hp}">${randomFighter.hp}HP</div>
+                        <div id="b-hp" class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" name="${randomFighter.name}" aria-valuenow="${randomFighter.hp}" aria-valuemin="0" aria-valuemax="${randomFighter.hp}" weakness="${randomFighter.weak}">${randomFighter.hp}HP</div>
                     </div>
                 </div>
                 <div id="cpu-attacks">
@@ -262,12 +272,19 @@ function battleStart (event) {
 //Listens to the clicked attack and "rolls the dice" to determine whether attack hit or missed, if hit, substract dealt damage from opposing player HP, (Stretch goal) If hit is performed by victim's weakness, multiply damage by 1.2.
 function userAttack (event) {
     if($(event.target).attr('acc')>Math.random()){
+        let damage = 0;
         //console.log($(event.target).parent().parent().attr('id'));
         //console.log(`${$(event.target).parent()} dealt ${$(event.target).attr('pow')} damage!`);
-        $('#b-hp').attr('aria-valuenow', $('#b-hp').attr('aria-valuenow') - $(event.target).attr('pow'));
+        if($('#b-hp').attr('weakness')===$('#a-hp').attr('name')){
+            $('#b-hp').attr('aria-valuenow', $('#b-hp').attr('aria-valuenow') - $(event.target).attr('pow')*1.2);
+            damage = $(event.target).attr('pow')*1.2;
+        } else {
+            $('#b-hp').attr('aria-valuenow', $('#b-hp').attr('aria-valuenow') - $(event.target).attr('pow'));
+            damage = $(event.target).attr('pow');
+        }
         $('#b-hp').attr('style', `width: ${($('#b-hp').attr('aria-valuenow')/$('#b-hp').attr('aria-valuemax'))*100}%`);
         $('#b-hp').text(`${$('#b-hp').attr('aria-valuenow')}HP`);
-        $('#lspeech-bubble').text(`${$(event.target).parent().parent().attr('id')} used ${$(event.target).attr('atk')} and dealt ${$(event.target).attr('pow')} damage!`)
+        $('#lspeech-bubble').text(`${$(event.target).parent().parent().attr('id')} used ${$(event.target).attr('atk')} and dealt ${damage} damage!`)
         userHit.play();
     } else {
         //console.log('You missed!')
@@ -282,15 +299,22 @@ function cpuAttack(){
     let $randomAttack = $('#cpu-attacks div').eq(Math.floor(Math.random()*3));
     //console.log($randomAttack.text())
     if($randomAttack.attr('acc')>Math.random()){
-    $('#a-hp').attr('aria-valuenow', $('#a-hp').attr('aria-valuenow') - $randomAttack.attr('pow'));
+        let damage = 0;
+        if($('#a-hp').attr('weakness')===$('#b-hp').attr('name')){
+            $('#a-hp').attr('aria-valuenow', $('#a-hp').attr('aria-valuenow') - $randomAttack.attr('pow')*1.2);
+            damage = $randomAttack.attr('pow')*1.2;
+        }else{
+            $('#a-hp').attr('aria-valuenow', $('#a-hp').attr('aria-valuenow') - $randomAttack.attr('pow'));
+            damage = $randomAttack.attr('pow');
+        }
     $('#a-hp').attr('style', `width: ${($('#a-hp').attr('aria-valuenow')/$('#a-hp').attr('aria-valuemax'))*100}%`);
     $('#a-hp').text(`${$('#a-hp').attr('aria-valuenow')}HP`);
-    $('#rspeech-bubble').text(`${$randomAttack.parent().parent().attr('id')} used ${$randomAttack.attr('atk')} and dealt ${$randomAttack.attr('pow')} damage!`)
+    $('#rspeech-bubble').text(`${$randomAttack.parent().parent().attr('id')} used ${$randomAttack.attr('atk')} and dealt ${damage} damage!`)
     cpuHit.play();
     } else {
         //console.log('CPU missed!');
         $('#rspeech-bubble').text(`Lucky! ${$randomAttack.parent().parent().attr('id')} missed!`)
-        missHit.play();
+        missHit2.play();
     }
     checkPlayer();
 }
@@ -299,6 +323,8 @@ function cpuAttack(){
 function checkCPU(){
     if($('#b-hp').attr('aria-valuenow')<=0){
         $('#b-hp').text('DEAD')
+        $('#b-hp').attr('style', 'width: 100%')
+        $('#b-hp').attr('class','bg-danger progress-bar progress-bar-striped progress-bar-animated')
         $('#rspeech-bubble').text(`${$('.attack-button').parent().parent().attr('id')} wins the battle!`);
         $('#lspeech-bubble').text(`${$('.attack-button').parent().parent().attr('id')} wins the battle!`);
         console.log('USER WINS!!');
@@ -318,7 +344,9 @@ function checkCPU(){
 //After every cpu move, this function serves to check if the user is still alive, if it is, then execute a CPU attack, if it died, then excecute next stage.
 function checkPlayer(){
     if($('#a-hp').attr('aria-valuenow')<=0){
-        $('#a-hp').text('DEAD')
+        $('#a-hp').text('DEAD');
+        $('#a-hp').attr('style', 'width: 100%')
+        $('#a-hp').attr('class','bg-danger progress-bar progress-bar-striped progress-bar-animated');
         $('#rspeech-bubble').text(`${$('#cpu-attacks').parent().attr('id')} wins the battle!`);
         $('#lspeech-bubble').text(`${$('#cpu-attacks').parent().attr('id')} wins the battle!`);
         console.log('CPU WINS!!!');
@@ -359,6 +387,7 @@ function newBattle(){
 
 //This function is executed by newBattle() if it determines the game should end. The function removes everything on sight and displays a screen with the winner, as well as options to either play again or exit the site.
 function endGame(){
+    gameOverTheme.play();
     $('#battle-scene').remove();
     $display.append(`
         <div id="loading-screen" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
