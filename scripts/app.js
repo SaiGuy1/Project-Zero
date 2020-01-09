@@ -2,9 +2,11 @@
 // ***************************** 3rd Party Libraries **********************************************************
 // ***************************** Sanity Check *****************************************************************
 // ***************************** Constants & Variables ********************************************************
-const score = 0
-const $display = $('#display')
-const $instructions = $('#instructions')
+let playerScore = 0;
+let cpuScore = 0;
+const $display = $('#display');
+const $instructions = $('#instructions');
+let win = "";
 // ***************************** App State ********************************************************************
 let fighters = [
     {
@@ -129,7 +131,8 @@ function gameStart(){
 }
 
 //Loops through our fighters array (of objects) to create a character selection board.
-function createFighters(){
+function createFighters(){;
+    $('#loading-screen').remove();
     $('#mode-select').remove();
     $display.append(`
     <div class="card-deck text-center w-75" id="character-selector"></div>
@@ -182,7 +185,7 @@ function battleStart (event) {
     $display.append(`
     <div id="battle-scene" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
         <div class="d-flex flex-row justify-content-center align-items-center h-25 w-75">
-            <div id="lspeech-bubble">This will be a good fight!</div><img src='images/commentators.png' id="referee" class="rounded-pill"><div id="rspeech-bubble">Let's get it on!</div>
+            <div id="lspeech-bubble" class="float-left">This will be a good fight!</div><img src='images/commentators.png' id="referee" class="rounded-pill"><div id="rspeech-bubble" class="float-right">Let's get it on!</div>
         </div>
         <div id="fight-ring" class="card-deck d-flex flex-row justify-content-around h-75 w-75">
         </div>
@@ -202,7 +205,7 @@ function battleStart (event) {
                         <div id="a-hp" class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="${fighter.hp}" aria-valuemin="0" aria-valuemax="${fighter.hp}">${fighter.hp}HP</div>
                     </div>
                 </div>
-                <div id="${fighter.name}-attacks">
+                <div id="${fighter.name}-attacks" class="attack-list d-flex flex-column justify-content-center align-items-center">
                 </div>
             </div>
             `);
@@ -241,7 +244,7 @@ function battleStart (event) {
     $('#character-selector').remove();
 }
 
-//Listens to the clicked attack and "rolls the dice" to determine whether attack hit or missed, if hit, substract dealt damage from opposing player HP, if hit is performed by victim's weakness, multiply damage by 1.2.
+//Listens to the clicked attack and "rolls the dice" to determine whether attack hit or missed, if hit, substract dealt damage from opposing player HP, (Stretch goal) If hit is performed by victim's weakness, multiply damage by 1.2.
 function userAttack (event) {
     if($(event.target).attr('acc')>Math.random()){
         //console.log($(event.target).parent().parent().attr('id'));
@@ -254,9 +257,10 @@ function userAttack (event) {
         //console.log('You missed!')
         $('#lspeech-bubble').text(`Oh no! ${$(event.target).parent().parent().attr('id')} missed the attack!`)
     }
-    setTimeout(cpuAttack,1000);
+    checkCPU();
 }
 
+//Excecuted 1 second after user attacks, this select a random CPU attack and rolls the dice on whether it hits or not.
 function cpuAttack(){
     let $randomAttack = $('#cpu-attacks div').eq(Math.floor(Math.random()*3));
     //console.log($randomAttack.text())
@@ -269,6 +273,84 @@ function cpuAttack(){
         //console.log('CPU missed!');
         $('#rspeech-bubble').text(`Lucky! ${$randomAttack.parent().parent().attr('id')} missed!`)
     }
+    checkPlayer();
+}
+
+//After every user move, this function serves to check if the CPU is still alive, if it is, then execute a CPU attack, if it died, then excecute next stage.
+function checkCPU(){
+    if($('#b-hp').attr('aria-valuenow')<=0){
+        $('#b-hp').text('DEAD')
+        $('#rspeech-bubble').text(`${$('.attack-button').parent().parent().attr('id')} wins the battle!`);
+        $('#lspeech-bubble').text(`${$('.attack-button').parent().parent().attr('id')} wins the battle!`);
+        console.log('USER WINS!!');
+        $('.attack-button').remove();
+        $(`.attack-list`).append(`
+        <img src='images/win.png' style="max-height:150px;" class="align-self-center">
+        `);
+        playerScore++;
+        $('#player-score').text(`Player: ${playerScore}`);
+        setTimeout(newBattle, 4000);
+    } else {
+        setTimeout(cpuAttack,1000);
+    }
+}
+
+//After every cpu move, this function serves to check if the user is still alive, if it is, then execute a CPU attack, if it died, then excecute next stage.
+function checkPlayer(){
+    if($('#a-hp').attr('aria-valuenow')<=0){
+        $('#a-hp').text('DEAD')
+        $('#rspeech-bubble').text(`${$('#cpu-attacks').parent().attr('id')} wins the battle!`);
+        $('#lspeech-bubble').text(`${$('#cpu-attacks').parent().attr('id')} wins the battle!`);
+        console.log('CPU WINS!!!');
+        $('.attack-button').remove();
+        $(`.attack-list`).append(`
+        <img src='images/dead.png' style="max-height:150px;" class="align-self-center">
+        `);
+        cpuScore++;
+        $('#cpu-score').text(`CPU: ${cpuScore}`);
+        setTimeout(newBattle, 4000);
+    }
+}
+
+//As long as neither team has reached a score of 2, take user back to character screen.
+function newBattle(){
+    if(playerScore === 2) {
+        win = "YOU WON";
+        endGame();
+    } else if (cpuScore===2) {
+        win = "THE CPU WON"
+        endGame();
+    } else {
+        $('#battle-scene').remove();
+        $display.append(`
+        <div id="loading-screen" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
+            <h1 class="text-light" style="font-family: 'Changa', sans-serif;">Taking you back to character select...</h1>
+            <div class="spinner-border text-light" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        `);
+        setTimeout(createFighters,2000);
+    }
+}
+
+function endGame(){
+    $('#battle-scene').remove();
+    $display.append(`
+        <div id="loading-screen" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
+            <h1 class="bg-dark text-light" style="font-family: 'Changa', sans-serif;">${win} THE GAME!!</h1>
+            <button id="ending1" class="w-25 align-self-center">Play AGAIN!</button>
+            <button id="ending2" class="w-25 align-self-center">Go to Amazon</button>
+        </div>
+        `)
+}
+
+function reload() {
+    location.reload();
+}
+
+function buy(){
+    window.location.href = 'https://www.amazon.com/Episode-5-1/dp/B000KDZSH2/ref=sr_1_1?keywords=celebrity+deathmatch&qid=1578530587&sr=8-1'
 }
 
 // ***************************** Event Listeners **************************************************************
@@ -276,4 +358,6 @@ $('#game-start').on('click', gameStart);
 $display.on('click', '#game-mode-selected', createFighters);
 $display.on('click', '.character-selected', battleStart);
 $display.on('click', '.attack-button', userAttack);
+$display.on('click','#ending1', reload);
+$display.on('click', '#ending2', buy);
 
