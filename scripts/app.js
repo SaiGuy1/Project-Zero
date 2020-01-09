@@ -7,8 +7,17 @@ let cpuScore = 0;
 const $display = $('#display');
 const $instructions = $('#instructions');
 let win = "";
+
+// ******************** Sound FX **********************
 const fightTheme = document.getElementById('fight-theme');
 const selectionTheme = document.getElementById('selection-theme');
+const charSelected = document.getElementById('char-selected');
+const userHit = document.getElementById('user-hit');
+const cpuHit = document.getElementById('cpu-hit');
+const missHit = document.getElementById('miss-hit');
+const endFx = document.getElementById('end-fx');
+const youWin = document.getElementById('you-win');
+const youLose = document.getElementById('you-lose');
 // ***************************** App State ********************************************************************
 let fighters = [
     {
@@ -24,13 +33,13 @@ let fighters = [
             },
             {
                 attack: "Sucker Punch",
-                damage: 40,
+                damage: 50,
                 accuracy: .3,
             },
             {
                 attack: "Mic. Smack",
-                damage: 15,
-                accuracy: .9,
+                damage: 35,
+                accuracy: .8,
             }
         ],
         weakness: "Boy Bands",
@@ -55,7 +64,7 @@ let fighters = [
             },
             {
                 attack: "Delicate punch",
-                damage: 10,
+                damage: 15,
                 accuracy: 1,
             }
         ],
@@ -75,12 +84,12 @@ let fighters = [
                 accuracy: .2,
             },
             {
-                attack: "Slap in the face",
-                damage: 30,
+                attack: "Nut Kick",
+                damage: 40,
                 accuracy: .5,
             },
             {
-                attack: "Heal",
+                attack: "Slap",
                 damage: 20,
                 accuracy: 1,
             }
@@ -106,7 +115,7 @@ let fighters = [
                 accuracy: .5,
             },
             {
-                attack: "Sweaty Palms",
+                attack: "Jab",
                 damage: 10,
                 accuracy: 1,
             }
@@ -259,8 +268,10 @@ function userAttack (event) {
         $('#b-hp').attr('style', `width: ${($('#b-hp').attr('aria-valuenow')/$('#b-hp').attr('aria-valuemax'))*100}%`);
         $('#b-hp').text(`${$('#b-hp').attr('aria-valuenow')}HP`);
         $('#lspeech-bubble').text(`${$(event.target).parent().parent().attr('id')} used ${$(event.target).attr('atk')} and dealt ${$(event.target).attr('pow')} damage!`)
+        userHit.play();
     } else {
         //console.log('You missed!')
+        missHit.play();
         $('#lspeech-bubble').text(`Oh no! ${$(event.target).parent().parent().attr('id')} missed the attack!`)
     }
     checkCPU();
@@ -275,9 +286,11 @@ function cpuAttack(){
     $('#a-hp').attr('style', `width: ${($('#a-hp').attr('aria-valuenow')/$('#a-hp').attr('aria-valuemax'))*100}%`);
     $('#a-hp').text(`${$('#a-hp').attr('aria-valuenow')}HP`);
     $('#rspeech-bubble').text(`${$randomAttack.parent().parent().attr('id')} used ${$randomAttack.attr('atk')} and dealt ${$randomAttack.attr('pow')} damage!`)
+    cpuHit.play();
     } else {
         //console.log('CPU missed!');
         $('#rspeech-bubble').text(`Lucky! ${$randomAttack.parent().parent().attr('id')} missed!`)
+        missHit.play();
     }
     checkPlayer();
 }
@@ -295,6 +308,7 @@ function checkCPU(){
         `);
         playerScore++;
         $('#player-score').text(`Player: ${playerScore}`);
+        endFx.play();
         setTimeout(newBattle, 4000);
     } else {
         setTimeout(cpuAttack,1000);
@@ -314,6 +328,7 @@ function checkPlayer(){
         `);
         cpuScore++;
         $('#cpu-score').text(`CPU: ${cpuScore}`);
+        endFx.play();
         setTimeout(newBattle, 4000);
     }
 }
@@ -352,6 +367,11 @@ function endGame(){
             <button id="ending2" class="w-25 align-self-center">BUY the game!!</button>
         </div>
         `)
+        if(win === "YOU WON"){
+            youWin.play();
+        } else {
+            youLose.play();
+        }
 }
 //This function runs in case the user elected to play again, it reloads the document, bringing the user back to the Instructions screen.
 function reload() {
@@ -363,9 +383,12 @@ function buy(){
     window.location.href = 'https://www.amazon.com/Episode-5-1/dp/B000KDZSH2/ref=sr_1_1?keywords=celebrity+deathmatch&qid=1578530587&sr=8-1'
 }
 
+let selectNoise = () => charSelected.play(); 
+
 // ***************************** Event Listeners **************************************************************
 $('#game-start').on('click', gameStart);
 $display.on('click', '#game-mode-selected', createFighters);
+$display.on('click', '.character-selected', selectNoise);
 $display.on('click', '.character-selected', battleStart);
 $display.on('click', '.attack-button', userAttack);
 $display.on('click','#ending1', reload);
