@@ -7,6 +7,8 @@ let cpuScore = 0;
 const $display = $('#display');
 const $instructions = $('#instructions');
 let win = "";
+const fightTheme = document.getElementById('fight-theme');
+const selectionTheme = document.getElementById('selection-theme');
 // ***************************** App State ********************************************************************
 let fighters = [
     {
@@ -177,10 +179,13 @@ function createFighters(){;
         </div>
         `);
     });
+    selectionTheme.play();
 }
 
 //This function listens to who the user selected to create the battle-ring and switch the character card to the fighting card, which has less information but more functionality.
 function battleStart (event) {
+    selectionTheme.pause();
+    selectionTheme.currentTime = 0;
     let leftOvers = [];
     $display.append(`
     <div id="battle-scene" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
@@ -242,6 +247,7 @@ function battleStart (event) {
                 `);
             });
     $('#character-selector').remove();
+    fightTheme.play();
 }
 
 //Listens to the clicked attack and "rolls the dice" to determine whether attack hit or missed, if hit, substract dealt damage from opposing player HP, (Stretch goal) If hit is performed by victim's weakness, multiply damage by 1.2.
@@ -314,6 +320,8 @@ function checkPlayer(){
 
 //As long as neither team has reached a score of 2, take user back to character screen.
 function newBattle(){
+    fightTheme.pause();
+    fightTheme.currentTime = 0;
     if(playerScore === 2) {
         win = "YOU WON";
         endGame();
@@ -334,21 +342,23 @@ function newBattle(){
     }
 }
 
+//This function is executed by newBattle() if it determines the game should end. The function removes everything on sight and displays a screen with the winner, as well as options to either play again or exit the site.
 function endGame(){
     $('#battle-scene').remove();
     $display.append(`
         <div id="loading-screen" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
             <h1 class="bg-dark text-light" style="font-family: 'Changa', sans-serif;">${win} THE GAME!!</h1>
             <button id="ending1" class="w-25 align-self-center">Play AGAIN!</button>
-            <button id="ending2" class="w-25 align-self-center">Go to Amazon</button>
+            <button id="ending2" class="w-25 align-self-center">BUY the game!!</button>
         </div>
         `)
 }
-
+//This function runs in case the user elected to play again, it reloads the document, bringing the user back to the Instructions screen.
 function reload() {
     location.reload();
 }
 
+//This function runs in case the user is curious to see my bad joke.
 function buy(){
     window.location.href = 'https://www.amazon.com/Episode-5-1/dp/B000KDZSH2/ref=sr_1_1?keywords=celebrity+deathmatch&qid=1578530587&sr=8-1'
 }
@@ -360,4 +370,3 @@ $display.on('click', '.character-selected', battleStart);
 $display.on('click', '.attack-button', userAttack);
 $display.on('click','#ending1', reload);
 $display.on('click', '#ending2', buy);
-
