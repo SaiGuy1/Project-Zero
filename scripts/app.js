@@ -133,7 +133,7 @@ let fighters = [
 ];
 // ***************************** Functions ********************************************************************
 // Removes Instructions, transitions into character selection.
-function gameStart(){
+/* function gameStart(){
     charSelected.play();
     $instructions.remove();
     $display.append(`
@@ -146,13 +146,11 @@ function gameStart(){
                 </form>
             </div>
     `);
-}
+} */
 
 //Loops through our fighters array (of objects) to create a character selection board.
-function createFighters(){;
-    if(cpuScore === 0 && playerScore === 0){
-        charSelected.play();
-    }
+function createFighters(){
+    $instructions.remove();
     $('#loading-screen').remove();
     $('#mode-select').remove();
     $display.append(`
@@ -209,7 +207,7 @@ function battleStart (event) {
     $display.append(`
     <div id="battle-scene" class="d-flex flex-column justify-content-center align-items-center h-100 w-75">
         <div class="d-flex flex-row justify-content-center align-items-center h-25 w-75">
-            <div id="lspeech-bubble" class="float-left">This will be a good fight!</div><img src='images/commentators.png' id="referee" class="rounded-pill"><div id="rspeech-bubble" class="float-right">Let's get it on!</div>
+            <div id="lspeech-bubble" class="float-left p-2">This will be a good fight!</div><img src='images/commentators.png' id="referee" class="rounded-pill"><div id="rspeech-bubble" class="float-right p-2">Let's get it on!</div>
         </div>
         <div id="fight-ring" class="card-deck d-flex flex-row justify-content-around h-75 w-75">
         </div>
@@ -256,13 +254,13 @@ function battleStart (event) {
                         <div id="b-hp" class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" name="${randomFighter.name}" aria-valuenow="${randomFighter.hp}" aria-valuemin="0" aria-valuemax="${randomFighter.hp}" weakness="${randomFighter.weak}">${randomFighter.hp}HP</div>
                     </div>
                 </div>
-                <div id="cpu-attacks">
+                <div id="cpu-attacks" class="d-flex justify-content-center flex-column">
                 </div>
             </div>
             `);}
             randomFighter.attacks.forEach(attack => {
                 $(`#cpu-attacks`).append(`
-                <div class="bg-dark text-white text-sm cpu-attack-button p-1 m-1" atk="${attack.attack}" pow="${attack.damage}" acc="${attack.accuracy}">ATK: ${attack.attack}<br>POW: ${attack.damage} ACC: ${attack.accuracy*100}%</div>
+                <div class="bg-dark text-white text-sm cpu-attack-button p-1 m-1 text-center" atk="${attack.attack}" pow="${attack.damage}" acc="${attack.accuracy}">ATK: ${attack.attack}<br>POW: ${attack.damage} ACC: ${attack.accuracy*100}%</div>
                 `);
             });
     $('#character-selector').remove();
@@ -272,6 +270,7 @@ function battleStart (event) {
 //Listens to the clicked attack and "rolls the dice" to determine whether attack hit or missed, if hit, substract dealt damage from opposing player HP, (Stretch goal) If hit is performed by victim's weakness, multiply damage by 1.2.
 function userAttack (event) {
     if($(event.target).attr('acc')>Math.random()){
+        $('.attack-button').attr("disabled", true);
         let damage = 0;
         //console.log($(event.target).parent().parent().attr('id'));
         //console.log(`${$(event.target).parent()} dealt ${$(event.target).attr('pow')} damage!`);
@@ -316,7 +315,7 @@ function cpuAttack(){
         $('#rspeech-bubble').text(`Lucky! ${$randomAttack.parent().parent().attr('id')} missed!`)
         missHit2.play();
     }
-    checkPlayer();
+    setTimeout(checkPlayer,1000);
 }
 
 //After every user move, this function serves to check if the CPU is still alive, if it is, then execute a CPU attack, if it died, then excecute next stage.
@@ -337,7 +336,7 @@ function checkCPU(){
         endFx.play();
         setTimeout(newBattle, 4000);
     } else {
-        setTimeout(cpuAttack,1000);
+        setTimeout(cpuAttack,2000);
     }
 }
 
@@ -359,6 +358,7 @@ function checkPlayer(){
         endFx.play();
         setTimeout(newBattle, 4000);
     }
+    $('.attack-button').attr("disabled", false)
 }
 
 //As long as neither team has reached a score of 2, take user back to character screen.
@@ -416,7 +416,8 @@ function buy(){
 let selectNoise = () => charSelected.play(); 
 
 // ***************************** Event Listeners **************************************************************
-$('#game-start').on('click', gameStart);
+$('#game-start').on('click', createFighters);
+$('#game-start').on('click', selectNoise);
 $display.on('click', '#game-mode-selected', createFighters);
 $display.on('click', '.character-selected', selectNoise);
 $display.on('click', '.character-selected', battleStart);

@@ -27,13 +27,7 @@
         <div id="instructions" class="container d-flex flex-column bg-dark text-white p-4 rounded">
             <h3>Instructions</h3>
             <p class="text-justify">
-                This is a turn-based fighting game, you must <b>win 2 out of 3 fights to win the game.</b> In the next screen you may:</br>
-                </br>
-                A) Select <b>YOUR</b> character and the CPU's character will be randomized.</br>
-                </br>
-                or...</br>
-                </br>
-                B) Select <b>CPU</b> character but your character will be randomized.</br>
+                This is a turn-based fighting game, you must <b>win 2 out of 3 fights to win the game.</b><br>
                 </br>
                 Each character will have a character card which shows their <b>total HP, attack-set, and weakness</b>, which will be one of the other three characters in the roster. Each character has a set of <b>three attacks</b>, ranging from heavy attack but low accuracy, to a lighter attack that deals low damage but rarely misses. Once a character's HP reaches zero, the fight ends and the game resets, but a score is kept to signify the overall score. When either you or the CPU wins 2 out of three fights, the game will announce a winner.</br>
                 </br>
@@ -42,7 +36,8 @@
             <button id="game-start" class="w-25 align-self-center">Play NOW!</button>
         </div>
     </main>
-    <footer>
+    <footer class="d-flex flex-column p-2 justify-content-center align-items-center">
+        <h6 class="mb-0 text-white">&copy; 2020 Marco Game Studios Inc.</h6>
     </footer>
     <audio id="fight-theme" src="audio/guilethemefight.mp3"></audio>
     <audio id="selection-theme" src="audio/charselect.mp3"></audio>
